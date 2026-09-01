@@ -26,6 +26,7 @@ describe('Analyst Analytics API', () => {
     ]);
     await Opportunity.create({
       title: 'Open Deal', company: 'Acme', value: 10000, probability: 50, stage: 'Proposal', ownerId: user._id,
+      createdAt: '2026-08-15T00:00:00.000Z',
     });
 
     const response = await request(app)

@@ -13,10 +13,14 @@ const validate = (schema) => (req, res, next) => {
     });
     next();
   } catch (error) {
-    const message = error.errors
-      .map((e) => `${e.path.join('.')}: ${e.message}`)
-      .join(', ');
-    next(new AppError(message, 422));
+    const errors = error.errors ? error.errors.map((e) => ({
+      path: e.path.join('.'),
+      message: e.message,
+    })) : [];
+    const message = errors.length
+      ? errors.map((e) => `${e.path}: ${e.message}`).join(', ')
+      : 'Validation failed';
+    next(new AppError(message, 422, errors));
   }
 };
 

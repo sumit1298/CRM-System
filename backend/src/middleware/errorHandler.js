@@ -32,6 +32,10 @@ const errorHandler = (err, req, res, next) => {
     error = new AppError(message, 400);
   }
 
+  if (error.errors && error.errors.length) {
+    error = new AppError(error.message, error.statusCode || 422, error.errors);
+  }
+
   // JWT errors
   if (err.name === 'JsonWebTokenError') {
     error = new AppError('Invalid token. Please log in again.', 401);
@@ -50,6 +54,7 @@ const errorHandler = (err, req, res, next) => {
   res.status(error.statusCode || 500).json({
     success: false,
     message: error.message || 'Server Error',
+    ...(error.errors && error.errors.length ? { errors: error.errors } : {}),
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
   });
 };

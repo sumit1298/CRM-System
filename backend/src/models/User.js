@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema(
     },
     company: {
       type: String,
-      required: [true, 'Company/Organization is required'],
       trim: true,
       maxlength: [100, 'Company name cannot exceed 100 characters'],
     },

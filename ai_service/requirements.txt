@@ -1,0 +1,12 @@
+fastapi==0.115.0
+uvicorn==0.30.6
+pydantic==2.9.2
+python-dotenv==1.0.1
+openai>=1.35.0
+google-genai>=1.0.0
+pymongo==4.8.0
+
+# Optional langchain layers can be added later when the environment supports them
+# langchain>=0.3.0
+# langchain-core>=0.3.20
+# langchain-google-genai>=2.0.0

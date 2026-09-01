@@ -1,12 +1,14 @@
 const Lead = require('../models/Lead');
 const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
+const sanitizeMongoQuery = require('../utils/sanitizeQuery');
 
 // @desc    Get all leads (with search, filter, sort, pagination)
 // @route   GET /api/leads
 // @access  Private
 const getLeads = asyncHandler(async (req, res) => {
-  const { search, status, priority, source, minValue, maxValue, sortBy, sortOrder, page = 1, limit = 10 } = req.query;
+  const safeQuery = sanitizeMongoQuery(req.query);
+  const { search, status, priority, source, minValue, maxValue, sortBy, sortOrder, page = 1, limit = 10 } = safeQuery;
 
   // Build query with owner-based multi-tenancy
   const query = { ownerId: req.user.id };
